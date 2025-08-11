@@ -1,0 +1,30 @@
+name: Fetch TikTok Fans
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 UTC 零点运行
+  workflow_dispatch:     # 允许手动触发
+
+jobs:
+  fetch_fans:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Python packages
+        run: |
+          pip install requests
+          pip install pandas
+
+      - name: Run fetch fans script
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+        run: python fetch_followers.py
