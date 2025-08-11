@@ -1,32 +1,29 @@
-name: Fetch TikTok Followers
+name: Fetch TikTok Fans
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 0 * * *'  # 每天运行一次，您可以根据需要调整
+    - cron: '0 0 * * *'  # Runs once every day at midnight UTC
+  workflow_dispatch:     # Allow manual trigger
 
 jobs:
-  fetch-followers:
+  fetch_fans:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-    - name: Run script to fetch followers
-      env:
-        API_KEY: ${{ secrets.API_KEY }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-      run: |
-        python fetch_followers.py
+      - name: Run fetch fans script
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+        run: python fetch_followers.py
+
